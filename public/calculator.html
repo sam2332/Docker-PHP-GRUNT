@@ -1,0 +1,121 @@
+<html>
+	<body>
+		<div>
+			<div>
+				<div>
+					<label for='number_of_exemptions'>Number of Exemptions: </label>
+					<input type='number' id='number_of_exemptions' placeholder='' value='14'/> 
+				</div>
+				<div>
+					<label for='amount_of_income_taxable_by_the_city'>Amount of Income taxable by the City:</label>
+					<input type='number' id='amount_of_income_taxable_by_the_city' placeholder='' value='1000000'/> 
+				</div>
+				<div>
+					<label for='taxable_value_of_your_home'>Taxable Value of your home:</label>
+					<input type='number' id='taxable_value_of_your_home' placeholder='' value='70000'/> 
+				</div>
+			</div>
+			<hr>
+			<div id='output'>
+				<div style='width: 300px; display:inline-block;'>
+					<label>ExemptionsValue:</label>
+					<label>TotalTaxableIncome:</label>
+					<label>TaxLiability:</label>
+					<label>TotalReductionInPropertyTaxesProposed:</label>
+					<label>AmountPerBiWeeklyPay:</label>
+					<label>AmountPerWeekPay:</label>
+					<label>NetEffectOnTaxes:</label>
+				</div>
+				<div style='width: 150px; display:inline-block;'>
+					<span class='output' id='ExemptionsValue_output'></span>
+					<span class='output' id='TotalTaxableIncome_output'></span>
+					<span class='output' id='TaxLiability_output'></span>
+					<span class='output' id='TotalReductionInPropertyTaxesProposed_output'></span>
+					<span class='output' id='AmountPerBiWeeklyPay_output'></span>
+					<span class='output' id='AmountPerWeekPay_output'></span>
+					<span class='output' id='NetEffectOnTaxes_output'></span>
+				</div>
+			</div>
+		</div>
+		<style>
+
+			label {
+				margin-right: 15px;
+			}
+
+			#output  label {
+				display: block;
+			}
+			.output {
+				display: block;
+			}
+		
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+
+			/* 
+			 * This code was written and produced by Sam Rudloff for the city of East Lansing.
+			 */
+
+			/*
+			 *   This function styles and formats the currency values.
+			 *
+			 *   @Param String  key   The Element id to fill with the data.
+			 *   @Param Number  value The data to format and place in selected id.
+			 *
+			 *   @return null
+			 */
+			function setOutput (key, value){
+				$('#' + key).html('$' + value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+			}
+
+			
+			/*
+			 *   This function calculates and updates the tax values.
+			 *
+			 *   @return null
+			 */
+			function calculateTax(){
+				// Static Variables.
+				var ProposedPropertyTaxMillageReduction = 0.005;
+				var ProposedTaxRate = 0.01;
+				
+				// Get user input.
+				var NumberOfExemptions = parseFloat($('#number_of_exemptions').val());
+				var AmountOfIncomeTaxableByTheCity  = parseFloat($('#amount_of_income_taxable_by_the_city').val());
+				var TaxableValueOfYourHome = parseFloat($('#taxable_value_of_your_home').val());
+
+				// Business Logic
+				var ExemptionsValue = -NumberOfExemptions * 600;
+				var TotalTaxableIncome = AmountOfIncomeTaxableByTheCity - ExemptionsValue;
+				var TaxLiability = TotalTaxableIncome * ProposedTaxRate;
+				var TotalReductionInPropertyTaxesProposed = TaxableValueOfYourHome * ProposedPropertyTaxMillageReduction;
+
+				// Amount over time
+				var AmountPerBiWeeklyPay = (TaxLiability / 26).toFixed(2); // 26 bi-weeks in a year.
+				var AmountPerWeekPay = (TaxLiability / 52).toFixed(2); // 52 weeks in a year.
+
+				//Final Calulation
+				var NetEffectOnTaxes = TaxLiability - TotalReductionInPropertyTaxesProposed;
+
+				// Output formated data to screen.
+				setOutput('ExemptionsValue_output', ExemptionsValue);
+				setOutput('TotalTaxableIncome_output', TotalTaxableIncome);
+				setOutput('TaxLiability_output', TaxLiability);
+				setOutput('TotalReductionInPropertyTaxesProposed_output', TotalReductionInPropertyTaxesProposed);
+				setOutput('AmountPerBiWeeklyPay_output', AmountPerBiWeeklyPay);
+				setOutput('AmountPerWeekPay_output', AmountPerWeekPay);
+				setOutput('NetEffectOnTaxes_output', NetEffectOnTaxes);
+			}
+
+			// Setup events.
+			$('input').keyup(function(){
+				calculateTax();
+			});
+
+			// Prefill the form.
+			calculateTax();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+$blue: '#00F';
+$red: '#F00';
+
+.scss {
+  color: $red;
+}
+a {
+  background: linear-gradient(to top, black, white);
+  display: flex
+}
+::placeholder {
+  color: #ccc
+}
