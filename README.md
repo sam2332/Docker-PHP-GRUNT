@@ -1,2 +1,5 @@
 # Docker-PHP-GRUNT
-my personal template for development
+Docker Docker environment for faster iterative development
+Created created by Sam rudloff
+Contributions by Eric defore
+
