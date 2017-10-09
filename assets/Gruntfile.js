@@ -174,10 +174,17 @@ module.exports = function (grunt) {
 			}
 		},
 		autoprefixer: {
-			'upgrade app css with prefixes': {
-				files: {
-					'../public/css/test.css': '../public/css/test.css'
-				}
+			options: {
+				browsers: ['last 2 versions', 'ie 8', 'ie 9', '> 1%']
+			},
+			target: {
+				files: [{
+					expand: true,
+					src: '*.css',
+					cwd: '../public/css/',
+					dest: '../public/css/',
+					ext: '.min.css'
+				}]
 			}
 		},
 		mochaTest: {
