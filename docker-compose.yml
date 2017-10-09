@@ -1,15 +1,13 @@
 version: "3"
 services:
-
   php-apache:
     image: php:7.0-apache
     ports:
       - "80:80"
     volumes:
-      - ./app/:/var/www/html/
+      - ./public/:/var/www/html/
     networks:
       - frontend
-        
 
 networks:
   frontend:

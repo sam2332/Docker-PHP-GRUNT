@@ -1,0 +1,116 @@
+label {
+    margin-right: 15px;
+}
+
+#output label {
+    display: block;
+}
+
+.output {
+    display: block;
+}
+
+.input_row {
+    margin-bottom: 5px;
+}
+
+/*
+Following css generated using: http://danielstern.ca/range.css/#/ 
+*/
+input[type=range] {
+    -webkit-appearance: none;
+    margin: 5.5px 0;
+    width: 100%;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background: #c7c8c8;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    cursor: pointer;
+    height: 6px;
+    width: 100%;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #5a955a;
+    border-radius: 3px;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    cursor: pointer;
+    height: 17px;
+    margin-top: -5.7px;
+    width: 16px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #d4d5d5;
+}
+
+input[type=range]::-moz-range-track {
+    background: #c7c8c8;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    cursor: pointer;
+    height: 6px;
+    width: 100%;
+}
+
+input[type=range]::-moz-range-thumb {
+    background: #5a955a;
+    border-radius: 3px;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    cursor: pointer;
+    height: 17px;
+    width: 16px;
+}
+
+input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    cursor: pointer;
+    height: 6px;
+    width: 100%;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #babbbb;
+    border-radius: 2.6px;
+    border: 0.2px solid #010101;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: #c7c8c8;
+    border-radius: 2.6px;
+    border: 0.2px solid #010101;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-thumb {
+    background: #5a955a;
+    border-radius: 3px;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    cursor: pointer;
+    height: 17px;
+    height: 6px;
+    width: 16px;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: #c7c8c8;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: #d4d5d5;
+}

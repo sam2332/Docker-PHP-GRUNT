@@ -7,32 +7,29 @@ module.exports = function (grunt) {
 			options: {
 				sourceMap: true,
 			},
-			copy_to_public: {
-				src: '../public/js/raw/production.js',
-				dest: '../public/js/production.min.js'
+			copy_libs_to_public: {
+				src: '../public/js/production.libs.js',
+				dest: '../public/js/production.libs.min.js'
+			},
+			copy_pages_to_public: {
+				files: [{
+					expand: true,
+					src: '*.js',
+					dest: '../public/js/pages/',
+					cwd: './js/pages/',
+					ext: '.min.js',
+				}]
 			},
 
-		},
-		cssmin: {
-			options: {
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-					'<%= grunt.template.today("yyyy-mm-dd") %> */'
-			},
-			my_target: {
-				files: {
-					src: '../public/css/test.css',
-					dest: '../public/css-min/test.min.css'
-				}
-			}
 		},
 		concat: {
 			'compile js scripts bundle': {
 				src: [
 					'js/vendor/*.js', // All vendor libs
+					'js/libs/**/*.js', // All JS in the libs folder
 					'js/libs/*.js', // All JS in the libs folder
-					'js/main.js' // This specific file
 				],
-				dest: '../public/js/raw/production.js',
+				dest: '../public/js/production.libs.js',
 			}
 		},
 		imagemin: {
@@ -56,8 +53,8 @@ module.exports = function (grunt) {
 				},
 				reporter: require('jshint-stylish')
 			},
-			all: ['Gruntfile.js', 'js/*.js', 'js/libs/*.js', "tests/*.js"],
-			beforeconcat: ['js/*.js', 'js/libs/*.js'],
+			all: ['Gruntfile.js', 'js/*.js', 'js/libs/**/*.js', 'js/pages/*.js'],
+			beforeconcat: ['js/*.js', 'js/libs/*.js', 'js/pages/*.js'],
 		},
 		sasslint: {
 			dev: {
@@ -68,7 +65,7 @@ module.exports = function (grunt) {
 			}
 		},
 		sass: {
-			'compileing scss': {
+			'compiling scss': {
 				files: [{
 					expand: true,
 					cwd: 'scss',
@@ -86,12 +83,20 @@ module.exports = function (grunt) {
 			},
 			scss: {
 				files: ['scss/*.scss', 'scss/**/.scss'],
-				tasks: ['sasslint', 'sass', 'uglify'],
+				tasks: ['prettysass', 'sasslint', 'sass', 'uglify'],
 
 			},
 			javascript: {
-				files: ['js/*.js', 'js/**/*.js', "tests/*.js"],
-				tasks: ['jsbeautifier', 'jshint', 'concat', 'uglify'],
+				files: ['js/*.js', 'js/libs/**/*.js', 'js/vendor/*.js', "tests/*.js"],
+				tasks: ['jsbeautifier', 'jshint', 'concat', 'uglify', 'mochaTest'],
+				options: {
+					spawn: false,
+					livereload: true,
+				},
+			},
+			javascript_pages: {
+				files: ['js/pages/*.js'],
+				tasks: ['jsbeautifier', 'jshint', 'uglify'],
 				options: {
 					spawn: false,
 					livereload: true,
@@ -104,10 +109,6 @@ module.exports = function (grunt) {
 					spawn: false,
 				},
 			},
-			test: {
-				files: ['js/libs/**/*.js', 'tests/*.js'],
-				tasks: ['mochaTest']
-			},
 			gruntfile: {
 				files: ['Gruntfile.js', ],
 				tasks: ['jsbeautifier', 'jshint'],
@@ -115,18 +116,26 @@ module.exports = function (grunt) {
 					spawn: false,
 				},
 			},
-			css: {
-				files: ['../public/css/*.css'],
-				tasks: ['cssmin']
-			},
 			php: {
 				files: ['../public/*.php'],
 				tasks: ['phpcs']
-			}
+			},
+			test: {
+				files: ['js/libs/**/*.js', 'tests/*.js'],
+				tasks: ['mochaTest']
+			},
 		},
-
+		prettysass: {
+			options: {
+				alphabetize: true,
+				indent: 4
+			},
+			app: {
+				src: ['scss/*.scss', 'scss/**/.scss']
+			},
+		},
 		jsbeautifier: {
-			files: ["Gruntfile.js", "js/*.js", "js/**/*.js", "tests/*.js"],
+			files: ["Gruntfile.js", "js/**/*.js", "tests/*.js"],
 			options: {
 				html: {
 					braceStyle: "collapse",
@@ -190,40 +199,30 @@ module.exports = function (grunt) {
 				standard: 'PSR2'
 			}
 		},
-		bootlint: {
-			options: {
-				stoponerror: false,
-				relaxerror: [],
-				showallerrors: true,
-			},
-			files: ['../public/*.html']
-		}
 	});
 
 	// 3. Where we tell Grunt we plan to use this plug-in.
-
-
-	// Bootstrap
-	grunt.loadNpmTasks('grunt-bootlint');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// JS
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-sass-lint');
 	grunt.loadNpmTasks("grunt-jsbeautifier");
-	grunt.loadNpmTasks('grunt-mocha-test');
-	grunt.loadNpmTasks('grunt-css');
-	grunt.loadNpmTasks('grunt-autoprefixer');
 
-	// PHP
+	// JS Testing
+	grunt.loadNpmTasks('grunt-mocha-test');
+
+	// Css / SCSS
+	grunt.loadNpmTasks('grunt-autoprefixer');
+	grunt.loadNpmTasks('grunt-prettysass');
+	grunt.loadNpmTasks('grunt-sass-lint');
+
+	// PHP Testing
 	grunt.loadNpmTasks('grunt-phpcs');
 
 	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-
-	//grunt.registerTask('default', ['watch']);
-	grunt.registerTask('default', ['jshint', 'jsbeautifier', 'sasslint', 'concat', 'uglify', 'imagemin', 'sass', 'autoprefixer', 'cssmin', 'mochaTest', 'phpcs', 'bootlint']);
+	grunt.registerTask('default', ['jshint', 'jsbeautifier', 'sasslint', 'prettysass', 'concat', 'uglify', 'imagemin', 'sass', 'autoprefixer', 'mochaTest', 'phpcs', 'watch']);
 };

@@ -1,42 +1,58 @@
 <html>
+	<head>
+		<title>Tax Estimator</title>
+		<link rel="stylesheet" type="text/css" href="/css/index.css">
+		<script src="/js/production.libs.min.js"></script>
+		<script src="/js/pages/index.min.js"></script>
+	</head>
 	<body>
 		<div>
 			<div>
-				<div>
+				<div class='input_row'>
 					<label for='number_of_exemptions'>Number of Exemptions: </label>
 					<input type='number' id='number_of_exemptions_value' placeholder='' value='14'/> 
-					<input
-						id='number_of_exemptions'
-					    type="range"
-					    min="0"                    // default 0
-					    max="100"                  // default 100
-					    step="1"                   // default 1
-					    value="14"                 // default min + (max-min)/2
-					    />
+					<div style ='display: inline-block; width:350px;'>
+						<input
+							id='number_of_exemptions'
+						    type="range"
+						    min="0"
+						    max="100"
+						    step="1"
+						    value="14"
+						    />
+					    <span id='number_of_exemptions_error'></span>
+				    </div>
+					
 				</div>
-				<div>
+				<div class='input_row'>
 					<label for='amount_of_income_taxable_by_the_city'>Amount of Income taxable by the City:</label>
 					<input type='number' id='amount_of_income_taxable_by_the_city_value' placeholder='' value='1000000'/> 
-					<input
-						id='amount_of_income_taxable_by_the_city'
-					    type="range"
-					    min="1"                    // default 0
-					    max="1000000"                  // default 100
-					    step="10"                   // default 1
-					    value="1000000"                 // default min + (max-min)/2
-					    />
+					<div style ='display: inline-block; width:350px;'>
+						<input
+							id='amount_of_income_taxable_by_the_city'
+						    type="range"
+						    min="1"
+						    max="1000000"
+						    step="1ß"
+						    value="1000000"
+						    />
+					    <span id='amount_of_income_taxable_by_the_city_error'></span>
+				    </div>
 				</div>
-				<div>
+				<div class='input_row'>
 					<label for='taxable_value_of_your_home'>Taxable Value of your home:</label>
 					<input type='number' id='taxable_value_of_your_home_value' placeholder='' value='70000'/> 
-					<input
-						id='taxable_value_of_your_home'
-					    type="range"
-					    min="1"                    // default 0
-					    max="1000000"                  // default 100
-					    step="10"                   // default 1
-					    value="70000"                 // default min + (max-min)/2
-					    />
+					<div style ='display: inline-block; width:350px;'>
+						<input
+							id='taxable_value_of_your_home'
+						    type="range"
+						    min="1"
+						    max="1000000"
+						    step="1"
+						    value="70000"
+						    />
+					    <span id='taxable_value_of_your_home_error'></span>
+				    </div>
 				</div>
 			</div>
 			<hr>
@@ -61,145 +77,5 @@
 				</div>
 			</div>
 		</div>
-		<style>
-
-			label {
-				margin-right: 15px;
-			}
-
-			#output  label {
-				display: block;
-			}
-			.output {
-				display: block;
-			}
-		
-		</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="/rangeslider.min.js"></script>
-		<link href='/rangeslider.css' rel="stylesheet">
-		<script>
-
-			/* 
-			 * This code was written and produced by Sam Rudloff for the city of East Lansing.
-			 */
-
-			/*
-			 *   This function styles and formats the currency values.
-			 *
-			 *   @Param String  key   The Element id to fill with the data.
-			 *   @Param Number  value The data to format and place in selected id.
-			 *
-			 *   @return null
-			 */
-			function setOutput (key, value){
-				$('#' + key).html('$' + value.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-			}
-
-			
-			/*
-			 *   This function calculates and updates the tax values.
-			 *
-			 *   @return null
-			 */
-			function calculateTax(){
-				// Static Variables.
-				var ProposedPropertyTaxMillageReduction = 0.005;
-				var ProposedTaxRate = 0.01;
-				
-				// Get user input.
-				var NumberOfExemptions = $('#number_of_exemptions').val();
-				var AmountOfIncomeTaxableByTheCity  = $('#amount_of_income_taxable_by_the_city').val();
-				var TaxableValueOfYourHome = $('#taxable_value_of_your_home').val();
-
-				if (NumberOfExemptions == 'NaN') {
-					NumberOfExemptions = 0;
-				} 
-				if (AmountOfIncomeTaxableByTheCity == 'NaN') {
-					AmountOfIncomeTaxableByTheCity = 0;
-				} 
-				if (TaxableValueOfYourHome == 'NaN') {
-					TaxableValueOfYourHome = 0;
-				}
-				// Business Logic
-				var ExemptionsValue = -NumberOfExemptions * 600;
-				var TotalTaxableIncome = AmountOfIncomeTaxableByTheCity - ExemptionsValue;
-				var TaxLiability = TotalTaxableIncome * ProposedTaxRate;
-				var TotalReductionInPropertyTaxesProposed = TaxableValueOfYourHome * ProposedPropertyTaxMillageReduction;
-
-				// Amount over time
-				var AmountPerBiWeeklyPay = (TaxLiability / 26); // 26 bi-weeks in a year round to 2 decimals.
-				var AmountPerWeekPay = (TaxLiability / 52); // 52 weeks in a year round to 2 decimals.
-
-				//Final Calulation
-				var NetEffectOnTaxes = TaxLiability - TotalReductionInPropertyTaxesProposed;
-
-				// Output formated data to screen.
-				setOutput('ExemptionsValue_output', ExemptionsValue);
-				setOutput('TotalTaxableIncome_output', TotalTaxableIncome);
-				setOutput('TaxLiability_output', TaxLiability);
-				setOutput('TotalReductionInPropertyTaxesProposed_output', TotalReductionInPropertyTaxesProposed);
-				setOutput('AmountPerBiWeeklyPay_output', AmountPerBiWeeklyPay);
-				setOutput('AmountPerWeekPay_output', AmountPerWeekPay);
-				setOutput('NetEffectOnTaxes_output', NetEffectOnTaxes);
-			}
-
-			// Setup events.
-			//$('input').keyup(function(){
-		//		calculateTax();
-	//		});
-
-			$('input[type="number"]').keyup(function(){
-				var NumberOfExemptions = parseFloat($('#number_of_exemptions_value').val());
-				var AmountOfIncomeTaxableByTheCity  = parseFloat($('#amount_of_income_taxable_by_the_city_value').val());
-				var TaxableValueOfYourHome = parseFloat($('#taxable_value_of_your_home_value').val());
-		    	
-				// Update display
-				$('#number_of_exemptions').val(NumberOfExemptions).change();
-				$('#amount_of_income_taxable_by_the_city').val(AmountOfIncomeTaxableByTheCity).change();
-		    	$('#taxable_value_of_your_home').val(TaxableValueOfYourHome).change();
-			})
-			$('input[type="range"]').rangeslider({
-
-			    // Feature detection the default is `true`.
-			    // Set this to `false` if you want to use
-			    // the polyfill also in Browsers which support
-			    // the native <input type="range"> element.
-			    polyfill: false,
-
-			    // Default CSS classes
-			    rangeClass: 'rangeslider',
-			    disabledClass: 'rangeslider--disabled',
-			    horizontalClass: 'rangeslider--horizontal',
-			    verticalClass: 'rangeslider--vertical',
-			    fillClass: 'rangeslider__fill',
-			    handleClass: 'rangeslider__handle',
-
-			    // Callback function
-			    onInit: function() {
-					// Prefill the form.
-					calculateTax();
-			    },
-
-			    // Callback function
-			    onSlide: function(position, value) {
-			    	calculateTax();				// Get user input.
-					var NumberOfExemptions = $('#number_of_exemptions').val();
-					var AmountOfIncomeTaxableByTheCity  = $('#amount_of_income_taxable_by_the_city').val();
-					var TaxableValueOfYourHome = $('#taxable_value_of_your_home').val();
-			    	
-					// Update display
-					$('#number_of_exemptions_value').val(NumberOfExemptions);
-					$('#amount_of_income_taxable_by_the_city_value').val(AmountOfIncomeTaxableByTheCity);
-			    	$('#taxable_value_of_your_home_value').val(TaxableValueOfYourHome);
-			    },
-
-			    // Callback function
-			    onSlideEnd: function(position, value) {
-			    	calculateTax();
-			    }
-			});
-
-		</script>
 	</body>
 </html>

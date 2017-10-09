@@ -17,6 +17,7 @@
     "grunt-jsbeautifier": "^0.2.13",
     "grunt-mocha-test": "^0.13.2",
     "grunt-phpcs": "^0.4.0",
+    "grunt-prettysass": "^0.2.3",
     "grunt-sass-lint": "^0.2.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^3.5.3"
