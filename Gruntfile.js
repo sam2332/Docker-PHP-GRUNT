@@ -8,15 +8,15 @@ module.exports = function (grunt) {
 				sourceMap: true,
 			},
 			copy_libs_to_public: {
-				src: '../public/js/production.libs.js',
-				dest: '../public/js/production.libs.min.js'
+				src: 'public/js/production.libs.js',
+				dest: 'public/js/production.libs.min.js'
 			},
 			copy_pages_to_public: {
 				files: [{
 					expand: true,
 					src: '*.js',
-					dest: '../public/js/pages/',
-					cwd: './js/pages/',
+					dest: 'public/js/pages/',
+					cwd: 'assets/js/pages/',
 					ext: '.min.js',
 				}]
 			},
@@ -25,20 +25,20 @@ module.exports = function (grunt) {
 		concat: {
 			'compile js scripts bundle': {
 				src: [
-					'js/vendor/*.js', // All vendor libs
-					'js/libs/**/*.js', // All JS in the libs folder
-					'js/libs/*.js', // All JS in the libs folder
+					'assets/js/vendor/*.js', // All vendor libs
+					'assets/js/libs/**/*.js', // All JS in the libs folder
+					'assets/js/libs/*.js', // All JS in the libs folder
 				],
-				dest: '../public/js/production.libs.js',
+				dest: 'public/js/production.libs.js',
 			}
 		},
 		imagemin: {
 			'minifiy images and copy to public': {
 				files: [{
 					expand: true,
-					cwd: 'images/',
+					cwd: 'assets/images/',
 					src: ['**/*.{png,jpg,gif}'],
-					dest: '../public/images/'
+					dest: 'public/images/'
 				}]
 			}
 		},
@@ -53,8 +53,8 @@ module.exports = function (grunt) {
 				},
 				reporter: require('jshint-stylish')
 			},
-			all: ['Gruntfile.js', 'js/*.js', 'js/libs/**/*.js', 'js/pages/*.js'],
-			beforeconcat: ['js/*.js', 'js/libs/*.js', 'js/pages/*.js'],
+			all: ['Gruntfile.js', 'assets/js/*.js', 'assets/js/libs/**/*.js', 'assets/js/pages/*.js'],
+			beforeconcat: ['assets/js/*.js', 'assets/js/libs/*.js', 'assets/js/pages/*.js'],
 		},
 		sasslint: {
 			dev: {
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: 'scss',
 					src: ['*.scss'],
-					dest: '../public/css',
+					dest: 'public/css',
 					ext: '.css',
 					style: 'compressed'
 				}]
@@ -78,16 +78,15 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			images: {
-				files: ['images/**/*.{png,jpg,gif}'],
+				files: ['assets/images/**/*.{png,jpg,gif}'],
 				tasks: ['imagemin'],
 			},
 			scss: {
-				files: ['scss/*.scss', 'scss/**/.scss'],
+				files: ['assets/scss/*.scss', 'assets/scss/**/.scss'],
 				tasks: ['prettysass', 'sasslint', 'sass', 'uglify'],
-
 			},
 			javascript: {
-				files: ['js/*.js', 'js/libs/**/*.js', 'js/vendor/*.js', "tests/*.js"],
+				files: ['assets/js/*.js', 'assets/js/libs/**/*.js', 'assets/js/vendor/*.js', "tests/*.js"],
 				tasks: ['jsbeautifier', 'jshint', 'concat', 'uglify', 'mochaTest'],
 				options: {
 					spawn: false,
@@ -95,7 +94,7 @@ module.exports = function (grunt) {
 				},
 			},
 			javascript_pages: {
-				files: ['js/pages/*.js'],
+				files: ['assets/js/pages/*.js'],
 				tasks: ['jsbeautifier', 'jshint', 'uglify'],
 				options: {
 					spawn: false,
@@ -103,7 +102,7 @@ module.exports = function (grunt) {
 				},
 			},
 			vendor: {
-				files: ['js/vendor/*.js'],
+				files: ['assets/js/vendor/*.js'],
 				tasks: ['concat', 'uglify'],
 				options: {
 					spawn: false,
@@ -117,11 +116,11 @@ module.exports = function (grunt) {
 				},
 			},
 			php: {
-				files: ['../public/*.php'],
+				files: ['public/*.php'],
 				tasks: ['phpcs']
 			},
 			test: {
-				files: ['js/libs/**/*.js', 'tests/*.js'],
+				files: ['assets/js/libs/**/*.js', 'tests/*.js'],
 				tasks: ['mochaTest']
 			},
 		},
@@ -131,11 +130,11 @@ module.exports = function (grunt) {
 				indent: 4
 			},
 			app: {
-				src: ['scss/*.scss', 'scss/**/.scss']
+				src: ['assets/scss/*.scss', 'assets/scss/**/.scss']
 			},
 		},
 		jsbeautifier: {
-			files: ["Gruntfile.js", "js/**/*.js", "tests/*.js"],
+			files: ["Gruntfile.js", "assets/js/**/*.js", "assets/tests/*.js"],
 			options: {
 				html: {
 					braceStyle: "collapse",
@@ -181,15 +180,15 @@ module.exports = function (grunt) {
 				files: [{
 					expand: true,
 					src: '*.css',
-					cwd: '../public/css/',
-					dest: '../public/css/',
+					cwd: 'public/css/',
+					dest: 'public/css/',
 					ext: '.min.css'
 				}]
 			}
 		},
 		mochaTest: {
 			all: {
-				src: 'tests/*',
+				src: 'assets/tests/*',
 				run: true,
 				browserConsoleLogOptions: {
 					level: 'log',
@@ -199,7 +198,7 @@ module.exports = function (grunt) {
 		},
 		phpcs: {
 			public: {
-				src: ['../public/**/*.php']
+				src: ['public/**/*.php']
 			},
 			options: {
 				bin: '/usr/local/bin/phpcs',
