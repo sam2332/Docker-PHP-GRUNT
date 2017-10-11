@@ -231,5 +231,5 @@ module.exports = function (grunt) {
 
 	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
 	grunt.registerTask('default', ['jshint', 'jsbeautifier', 'sasslint', 'prettysass', 'concat', 'uglify', 'imagemin', 'sass', 'autoprefixer', 'mochaTest', 'phpcs', 'watch']);
-	grunt.registerTask('test', ['jshint', 'mochaTest', 'phpcs']);
+	grunt.registerTask('test', ['jshint', 'mochaTest']);
 };
