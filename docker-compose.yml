@@ -5,9 +5,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./public/:/var/www/html/
+      - ./:/var/www/html/
     networks:
       - frontend
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 networks:
   frontend:

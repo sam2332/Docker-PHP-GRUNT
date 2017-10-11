@@ -1,5 +1,5 @@
 var assert = require('assert');
-var calculateTax = require('../js/libs/taxCalculator/calculateTax.js');
+var calculateTax = require('../js/libs/taxCalculator/calculateTax.js').calculateTax;
 
 // Test Data
 var orginalTestData = {

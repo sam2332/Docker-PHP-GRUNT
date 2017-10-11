@@ -1,0 +1,5 @@
+{
+    "require": {
+        "vlucas/bulletphp": "v1.7-RC1"
+    }
+}

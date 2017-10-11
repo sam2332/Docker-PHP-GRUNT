@@ -27,8 +27,9 @@ function setOutput(key, value) {
  *   @return null
  */
 function RunCalculation() {
+	
 	try {
-		var results = calculateTax({
+		var results = calculator.calculateTax({
 			'number_of_exemptions': $('#number_of_exemptions_value').val(),
 			'amount_of_income_taxable_by_the_city': $('#amount_of_income_taxable_by_the_city_value').val(),
 			'taxable_value_of_your_home': $('#taxable_value_of_your_home_value').val()

@@ -86,7 +86,7 @@ module.exports = function (grunt) {
 				tasks: ['prettysass', 'sasslint', 'sass', 'uglify'],
 			},
 			javascript: {
-				files: ['assets/js/*.js', 'assets/js/libs/**/*.js', 'assets/js/vendor/*.js', "tests/*.js"],
+				files: ['Gruntfile.js', 'assets/js/*.js', 'assets/js/libs/**/*.js', 'assets/js/vendor/*.js', "assets/tests/*.js"],
 				tasks: ['jsbeautifier', 'jshint', 'concat', 'uglify', 'mochaTest'],
 				options: {
 					spawn: false,
@@ -134,7 +134,7 @@ module.exports = function (grunt) {
 			},
 		},
 		jsbeautifier: {
-			files: ["Gruntfile.js", "assets/js/**/*.js", "assets/tests/*.js"],
+			files: ["Gruntfile.js", "assets/js/libs/*.js", "assets/js/pages/*.js", "assets/tests/*.js"],
 			options: {
 				html: {
 					braceStyle: "collapse",
