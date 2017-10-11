@@ -1,7 +1,7 @@
 # Docker-PHP-GRUNT
 Docker Docker environment for faster iterative development.
 
-[![Build Status](https://travis-ci.org/sam2332/Docker-PHP-GRUNT.svg?branch=master)](https://travis-ci.org/sam2332/Docker-PHP-GRUNT)
+[![Build Status](https://travis-ci.org/sam2332/Docker-PHP-GRUNT.svg?branch=master)](https://travis-ci.org/sam2332/Docker-PHP-GRUNT) [![Maintainability](https://api.codeclimate.com/v1/badges/d89c0aaf4590cc007e24/maintainability)](https://codeclimate.com/github/sam2332/Docker-PHP-GRUNT/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/d89c0aaf4590cc007e24/test_coverage)](https://codeclimate.com/github/sam2332/Docker-PHP-GRUNT/test_coverage)
 
 Created created by Sam Rudloff
 
